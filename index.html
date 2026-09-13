@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FATAL ERROR // SYSTEM TERMINATED</title>
+    <style>
+        * { box-sizing: border-box; }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* Heavy Old TV Static & VCR Tracking Noise */
+        #grain {
+            position: fixed;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background-image: url('data:image/svg+xml;utf8,<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><filter id="noiseFilter"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" stitchTiles="stitch"/></filter><rect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.5"/></svg>');
+            opacity: 0.5;
+            pointer-events: none;
+            z-index: 99999;
+            animation: staticNoise 0.1s steps(4) infinite;
+        }
+
+        @keyframes staticNoise {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-10%, 10% ); }
+            50% { transform: translate(10%, -10%); }
+            75% { transform: translate(-5%, -5%); }
+            100% { transform: translate(0, 0); }
+        }
+
+        /* CRT Scanlines & Screen Distortions */
+        body::after {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 255, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.04), rgba(0, 0, 255, 0.02));
+            z-index: 99998;
+            background-size: 100% 2px, 4px 100%;
+            pointer-events: none;
+        }
+
+        /* Bright White Static Flash Layer */
+        #flash-bang {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: #ffffff;
+            z-index: 99997;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Initial Casual Analog Horror Green Screen */
+        .screen {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            background: #020802;
+        }
+
+        /* Big Green Analog Prompt Screen with Auto-Scroll */
+        #terminal-box {
+            color: #00ff00;
+            font-size: 24px;
+            font-weight: bold;
+            line-height: 1.5;
+            width: 90%;
+            max-width: 1200px;
+            height: 75vh;
+            border: 3px solid #00ff00;
+            padding: 40px;
+            background: rgba(0, 15, 0, 0.9);
+            box-shadow: 0 0 40px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.2);
+            overflow-y: auto;
+            text-shadow: 0 0 8px #00ff00;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        /* All-Red Game Over Screen */
+        #game-over-container {
+            display: none;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #ff0000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99996;
+            animation: shakeScreen 0.12s infinite;
+        }
+
+        .go-title {
+            color: #000000;
+            font-family: Impact, sans-serif;
+            font-size: 140px;
+            letter-spacing: 12px;
+            text-shadow: 6px 6px 0px #ffffff, 0 0 50px #000;
+            animation: slasherGlitch 0.06s infinite;
+        }
+
+        .go-sub {
+            color: #000000;
+            font-size: 36px;
+            font-weight: bold;
+            margin-top: 20px;
+            letter-spacing: 8px;
+        }
+
+        /* Final Black Screen with Zipping Flicker Text */
+        #final-ending-container {
+            display: none;
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000000;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 99999;
+        }
+
+        .final-text {
+            color: #ffffff;
+            font-size: 32px;
+            letter-spacing: 6px;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ffffff;
+            animation: zippingFlicker 0.15s infinite steps(2);
+        }
+
+        @keyframes shakeScreen {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-6px, 6px); }
+            40% { transform: translate(6px, -5px); }
+            60% { transform: translate(-5px, -6px); }
+            80% { transform: translate(5px, 6px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes slasherGlitch {
+            0% { transform: translate(0, 0) skew(0deg); }
+            20% { transform: translate(-10px, 8px) skew(-12deg); }
+            40% { transform: translate(10px, -8px) skew(12deg); }
+            60% { transform: translate(-6px, -6px) skew(-6deg); }
+            80% { transform: translate(6px, 6px) skew(6deg); }
+            100% { transform: translate(0, 0) skew(0deg); }
+        }
+
+        @keyframes zippingFlicker {
+            0% { opacity: 1; transform: scale(1) skew(0deg); filter: blur(0px); }
+            30% { opacity: 0.2; transform: translate(-15px, 2px) skew(-20deg); filter: blur(2px); }
+            50% { opacity: 0.9; transform: scale(1.02); filter: blur(0px); }
+            80% { opacity: 0.1; transform: translate(10px, -4px) skew(15deg); filter: blur(4px); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0px); }
+        }
+
+        @keyframes whiteFlash {
+            0% { background-color: #ffffff; opacity: 1; }
+            100% { background-color: transparent; opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="grain"></div>
+    <div id="flash-bang"></div>
+
+    <!-- Local audio file integration -->
+    <audio id="hack-audio" src="Hacking Alert.mp3" preload="auto" loop></audio>
+
+    <div class="screen" id="main-screen">
+        <div id="terminal-box"></div>
+    </div>
+
+    <!-- All-Red Game Over Screen -->
+    <div id="game-over-container">
+        <div class="go-title">GAME OVER</div>
+        <div class="go-sub">YOU ARE TERMINATED. THERE IS NO ESCAPE.</div>
+    </div>
+
+    <!-- Final Black Screen with Zipping Flicker Text -->
+    <div id="final-ending-container">
+        <div class="final-text">I see you...</div>
+    </div>
+
+    <script>
+        const terminal = document.getElementById('terminal-box');
+        const flashBang = document.getElementById('flash-bang');
+        const mainScreen = document.getElementById('main-screen');
+        const gameOverContainer = document.getElementById('game-over-container');
+        const finalEndingContainer = document.getElementById('final-ending-container');
+        const audio = document.getElementById('hack-audio');
+
+        function triggerStrobe(duration = 200) {
+            flashBang.style.animation = `whiteFlash ${duration}ms forwards`;
+            setTimeout(() => {
+                flashBang.style.animation = '';
+            }, duration);
+        }
+
+        // Custom loading text line generator for the backups line
+        function runBackupLoadingAnimation(callback) {
+            let p = document.createElement('p');
+            p.style.margin = "0";
+            terminal.appendChild(p);
+
+            let steps = ["10%", "20%", "25%", "30%", "100%"];
+            let stepIndex = 0;
+
+            function nextStep() {
+                if (stepIndex < steps.length) {
+                    p.innerHTML = "Deleting local defense backups [..." + steps[stepIndex] + "]";
+                    terminal.scrollTop = terminal.scrollHeight;
+                    stepIndex++;
+                    let delay = (stepIndex === steps.length) ? 400 : 150; 
+                    setTimeout(nextStep, delay);
+                } else {
+                    p.innerHTML = "Deleting local defense backups [████████████████] 100% - CORRUPTED";
+                    terminal.scrollTop = terminal.scrollHeight;
+                    if (callback) callback();
+                }
+            }
+            nextStep();
+        }
+
+        const horrorLinesPart1 = [
+            "C:\\USER\\SESSION_START...",
+            "Loading system configurations... [OK]",
+            "Establishing secure proxy node.................. [CONNECTED]",
+            "Warning: Unidentified background process detected on port 443.",
+            "Analyzing incoming data stream...",
+            "Source: LOCAL_IP_OVERRIDE",
+            "...",
+            "ATTENTION: Root access privileges have been forcefully escalated.",
+            "Biometric feed active. Camera calibration engaged.",
+            "They see you."
+        ];
+
+        const horrorLinesPart2 = [
+            "Overriding hardware killswitches...",
+            "FATAL SYSTEM ERROR: KERNEL COMPROMISED."
+        ];
+
+        let lineIndex = 0;
+        function runHorrorSequence() {
+            if (lineIndex < horrorLinesPart1.length) {
+                terminal.innerHTML += horrorLinesPart1[lineIndex] + "<br>";
+                terminal.scrollTop = terminal.scrollHeight;
+                lineIndex++;
+                setTimeout(runHorrorSequence, 700);
+            } else {
+                runBackupLoadingAnimation(() => {
+                    setTimeout(runHorrorSequencePart2, 400);
+                });
+            }
+        }
+
+        function runHorrorSequencePart2() {
+            let part2Index = 0;
+            function nextPart2Line() {
+                if (part2Index < horrorLinesPart2.length) {
+                    terminal.innerHTML += horrorLinesPart2[part2Index] + "<br>";
+                    terminal.scrollTop = terminal.scrollHeight;
+                    part2Index++;
+                    setTimeout(nextPart2Line, 600);
+                }
+            }
+            nextPart2Line();
+        }
+
+        // --- 13-SECOND HORROR TIMELINE ---
+
+        audio.play().catch(e => console.log("Audio autoplay blocked by browser policy"));
+        runHorrorSequence();
+
+        setTimeout(() => {
+            triggerStrobe(100);
+            mainScreen.style.background = '#052205';
+        }, 4000);
+
+        setTimeout(() => {
+            triggerStrobe(150);
+            terminal.style.color = '#ffaa00';
+            terminal.style.borderColor = '#ffaa00';
+        }, 7000);
+
+        setTimeout(() => {
+            triggerStrobe(200);
+            setTimeout(() => triggerStrobe(150), 300);
+        }, 10000);
+
+        setTimeout(() => {
+            triggerStrobe(600);
+            setTimeout(() => triggerStrobe(300), 300);
+
+            mainScreen.style.display = 'none';
+            gameOverContainer.style.display = 'flex';
+        }, 13000);
+
+        setTimeout(() => {
+            audio.pause();
+            gameOverContainer.style.display = 'none';
+            finalEndingContainer.style.display = 'flex';
+        }, 16000); 
+
+        setTimeout(() => {
+            triggerStrobe(900);
+            setTimeout(() => {
+                finalEndingContainer.style.display = 'none';
+                document.body.style.background = '#000000';
+                
+                window.close();
+                window.location.href = "about:blank";
+            }, 300);
+        }, 18500);
+    </script>
+</body>
+</html>
