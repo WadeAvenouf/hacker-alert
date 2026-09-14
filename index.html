@@ -180,8 +180,8 @@
     <div id="grain"></div>
     <div id="flash-bang"></div>
 
-    <!-- Local audio file integration -->
-   <audio id="hack-audio" src="alarm.mp3" preload="auto" loop></audio>
+    <!-- Clean audio file integration -->
+    <audio id="hack-audio" src="alarm.mp3" preload="auto" loop></audio>
 
     <div class="screen" id="main-screen">
         <div id="terminal-box"></div>
@@ -285,7 +285,16 @@
 
         // --- 13-SECOND HORROR TIMELINE ---
 
+        // Attempt autoplay on load
         audio.play().catch(e => console.log("Audio autoplay blocked by browser policy"));
+
+        // Fallback: trigger audio on first user click anywhere on screen to bypass blocks
+        window.addEventListener('click', () => {
+            if (audio.paused) {
+                audio.play();
+            }
+        }, { once: true });
+
         runHorrorSequence();
 
         setTimeout(() => {
