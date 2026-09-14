@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FATAL ERROR // SYSTEM TERMINATED</title>
     <style>
         * { box-sizing: border-box; }
@@ -65,21 +66,21 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 30px;
+            padding: 20px;
             background: #020802;
         }
 
         /* Big Green Analog Prompt Screen with Auto-Scroll */
         #terminal-box {
             color: #00ff00;
-            font-size: 24px;
+            font-size: clamp(14px, 4vw, 24px);
             font-weight: bold;
             line-height: 1.5;
-            width: 90%;
+            width: 95%;
             max-width: 1200px;
-            height: 75vh;
+            height: 80vh;
             border: 3px solid #00ff00;
-            padding: 40px;
+            padding: 20px;
             background: rgba(0, 15, 0, 0.9);
             box-shadow: 0 0 40px rgba(0, 255, 0, 0.3), inset 0 0 20px rgba(0, 255, 0, 0.2);
             overflow-y: auto;
@@ -101,24 +102,26 @@
             justify-content: center;
             align-items: center;
             z-index: 99996;
+            padding: 20px;
+            text-align: center;
             animation: shakeScreen 0.12s infinite;
         }
 
         .go-title {
             color: #000000;
             font-family: Impact, sans-serif;
-            font-size: 140px;
-            letter-spacing: 12px;
-            text-shadow: 6px 6px 0px #ffffff, 0 0 50px #000;
+            font-size: clamp(40px, 12vw, 140px);
+            letter-spacing: 6px;
+            text-shadow: 4px 4px 0px #ffffff, 0 0 30px #000;
             animation: slasherGlitch 0.06s infinite;
         }
 
         .go-sub {
             color: #000000;
-            font-size: 36px;
+            font-size: clamp(16px, 4vw, 36px);
             font-weight: bold;
             margin-top: 20px;
-            letter-spacing: 8px;
+            letter-spacing: 4px;
         }
 
         /* Final Black Screen with Zipping Flicker Text */
@@ -133,12 +136,14 @@
             justify-content: center;
             align-items: center;
             z-index: 99999;
+            padding: 20px;
+            text-align: center;
         }
 
         .final-text {
             color: #ffffff;
-            font-size: 32px;
-            letter-spacing: 6px;
+            font-size: clamp(20px, 6vw, 32px);
+            letter-spacing: 4px;
             text-shadow: 0 0 10px #ff0000, 0 0 20px #ffffff;
             animation: zippingFlicker 0.15s infinite steps(2);
         }
@@ -180,7 +185,7 @@
     <div id="grain"></div>
     <div id="flash-bang"></div>
 
-    <!-- Clean audio file integration -->
+    <!-- Clean, space-free audio source -->
     <audio id="hack-audio" src="alarm.mp3" preload="auto" loop></audio>
 
     <div class="screen" id="main-screen">
@@ -283,19 +288,23 @@
             nextPart2Line();
         }
 
-        // --- 13-SECOND HORROR TIMELINE ---
-
-        // Attempt autoplay on load
-        audio.play().catch(e => console.log("Audio autoplay blocked by browser policy"));
-
-        // Fallback: trigger audio on first user click anywhere on screen to bypass blocks
-        window.addEventListener('click', () => {
+        // --- CROSS-PLATFORM AUDIO UNLOCK (DESKTOP & MOBILE) ---
+        function triggerAudioUnlock() {
             if (audio.paused) {
-                audio.play();
+                audio.play().catch(e => console.log("Audio play blocked:", e));
             }
-        }, { once: true });
+        }
 
+        // Listen for interaction across all device types (Mouse click, Touch tap, Keyboard press)
+        window.addEventListener('click', triggerAudioUnlock, { once: true });
+        window.addEventListener('touchstart', triggerAudioUnlock, { once: true });
+        window.addEventListener('keydown', triggerAudioUnlock, { once: true });
+
+        // Attempt immediate playback on load
+        audio.play().catch(e => console.log("Initial autoplay restricted"));
         runHorrorSequence();
+
+        // --- 13-SECOND HORROR TIMELINE ---
 
         setTimeout(() => {
             triggerStrobe(100);
@@ -327,6 +336,7 @@
             finalEndingContainer.style.display = 'flex';
         }, 16000); 
 
+        // FINAL STEP: Extended delay to let them read "I see you...", then black out / redirect
         setTimeout(() => {
             triggerStrobe(900);
             setTimeout(() => {
@@ -334,9 +344,9 @@
                 document.body.style.background = '#000000';
                 
                 window.close();
-                window.location.href = "about:blank";
+                window.location.href = "about:blank"; // Universal mobile/desktop fallback
             }, 300);
-        }, 18500);
+        }, 22000);
     </script>
 </body>
 </html>
